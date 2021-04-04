@@ -49,4 +49,29 @@ function resetAll() {
 }
 
 //Accordeon button open/collapse all
-
+function expandCollapse() {
+	document.querySelectorAll(".accordion-collapse").forEach(function(collapse) {
+		if (collapse.classList.contains('show') ) { /* Accordion tab is open*/
+			collapse.classList.remove('show'); /* remove class "show" */
+			/*Setting properties for open/close button*/
+			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
+				accButton.classList.add('collapsed');
+				/* Set aria-expanded to false */
+				let x = accButton.getAttribute("aria-expanded"); 
+				x = "true"
+				accButton.setAttribute("aria-expanded", x);
+			});
+		}
+		else { /* Accordion tab is closed*/
+			collapse.classList.add('show'); /* add class "show" */
+			/*Setting properties for open/close button*/
+			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
+				accButton.classList.remove('collapsed');
+				/* Set aria-expanded to true */
+				let x = accButton.getAttribute("aria-expanded"); 
+				x = "false"
+				accButton.setAttribute("aria-expanded", x);
+			});
+		}
+	});
+}
