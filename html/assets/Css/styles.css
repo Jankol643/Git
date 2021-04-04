@@ -23,15 +23,15 @@ p.yellow::-moz-selection {
 
 span.re {
 	background-color: #ffb7b7;
-	padding: 1em;
+	padding: 0.1em;
 }
 
 span.bl {
 	background-color: #a6d1ff;
-	padding: 1em;
+	padding: 0.1em;
 }
 
 span.ye {
 	background-color: #fff2a8;
-	padding: 1em;
+	padding: 0.1em;
 }
