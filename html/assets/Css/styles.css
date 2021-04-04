@@ -22,16 +22,16 @@ p.yellow::-moz-selection {
 /*Spans for headings*/
 
 span.re {
-	background-color: #ffb7b7
-	padding: 1em
+	background-color: #ffb7b7;
+	padding: 1em;
 }
 
 span.bl {
-	background-color: #a6d1ff
-	padding: 1em
+	background-color: #a6d1ff;
+	padding: 1em;
 }
 
-span.re {
-	background-color: #fff2a8
-	padding: 1em
+span.ye {
+	background-color: #fff2a8;
+	padding: 1em;
 }
