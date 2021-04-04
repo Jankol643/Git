@@ -25,7 +25,7 @@ function colorPicker() {
 	colorWell.select();
 }
 
-// changes first paragraph with class "changeColor" to color picker color
+// changes first paragraph with class "changeColor" to color of color picker
 function updateFirst(event) {
   var p = document.querySelector(".changeColor");
 
@@ -41,9 +41,12 @@ function updateAll(event) {
   });
 }
 
+// Reset color of paragraphs to black
 function resetAll() {
   document.querySelectorAll(".changeColor").forEach(function(p) {
-    p.style.color = black; //black
+	p.style.color = "rgb(0,0,0)";
   });
 }
+
+//Accordeon button open/collapse all
 
