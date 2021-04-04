@@ -1,1 +1,20 @@
+/*Text selection in different colors*/
 
+p.red::selection {
+  background: #ffb7b7;
+}
+p.red::-moz-selection {
+  background: #ffb7b7;
+}
+p.blue::selection {
+  background: #a8d1ff;
+}
+p.blue::-moz-selection {
+  background: #a8d1ff;
+}
+p.yellow::selection {
+  background: #fff2a8;
+}
+p.yellow::-moz-selection {
+  background: #fff2a8;
+}
