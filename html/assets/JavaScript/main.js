@@ -43,7 +43,7 @@ function updateAll(event) {
 
 function resetAll() {
   document.querySelectorAll(".changeColor").forEach(function(p) {
-    p.style.color = #000000; //black
+    p.style.color = black; //black
   });
 }
 
