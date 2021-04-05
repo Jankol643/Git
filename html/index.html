@@ -210,7 +210,20 @@
     <div id="collapseThree" class="accordion-collapse collapse"
          aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-
+		<form>
+			<label for="inputX">First number (inputX): </label> <br>
+			<input type="number" name="inputX" id="inputX"> <br>
+			<label for="inputY">Second number (inputY): </label> <br>
+			<input type="number" name="inputY" id="inputY"> <br>
+			<select id="arithoper" name="arithoper">
+				<option value="add">Add</option>
+				<option value="subtract">Subtract</option>
+				<option value="multiply">Multiply</option>
+				<option value="divide">Divide</option>
+				<option value="squareRoot">Square Root of x</option>
+			</select>
+			<input type="button" onclick="calc();" value="Calculate">
+		</form>
       </div>
     </div>
   </div>
