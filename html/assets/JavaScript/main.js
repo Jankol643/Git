@@ -1,9 +1,8 @@
 //adapted from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 
-var colorWell;
-var defaultColor = "#0000ff";
+let colorWell;
 
-window.addEventListener('load', (event) => {
+window.addEventListener('load', () => {
     console.log('The page has fully loaded');
 	startup();
 	
@@ -18,7 +17,6 @@ function startup() {
 function colorPicker() {
 	colorWell = document.querySelector("#colorWell");
 	console.log(colorWell);
-	colorWell.value = defaultColor;
 	colorWell.addEventListener("input", updateFirst, false);
 	colorWell.addEventListener("change", updateAll, false); // triggered when color picker changes
 
@@ -27,7 +25,7 @@ function colorPicker() {
 
 // changes first paragraph with class "changeColor" to color of color picker
 function updateFirst(event) {
-	var p = document.querySelector(".changeColor");
+	let p = document.querySelector(".changeColor");
 
 	if (p) {
 		p.style.color = event.target.value;
@@ -63,7 +61,7 @@ function expandCollapse(btn) {
 			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
 				accButton.classList.add('collapsed');
 				/* Set aria-expanded to false */
-				let x = accButton.getAttribute("aria-expanded"); 
+				let x = accButton.getAttribute("aria-expanded");
 				x = "true"
 				accButton.setAttribute("aria-expanded", x);
 			});
@@ -75,7 +73,7 @@ function expandCollapse(btn) {
 			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
 				accButton.classList.remove('collapsed');
 				/* Set aria-expanded to true */
-				let x = accButton.getAttribute("aria-expanded"); 
+				x = accButton.getAttribute("aria-expanded");
 				x = "false"
 				accButton.setAttribute("aria-expanded", x);
 			});
@@ -88,24 +86,27 @@ function calc() {
 	inputX = parseFloat(inputX);
 	let inputY = document.querySelector("#inputY").value;
 	inputY = parseFloat(inputY);
-	let operation = document.querySelector('#arithoper option:checked').value
+	let operation = document.querySelector('#arithoper option:checked').value;
+	let round = document.querySelector("#range").value;
+	round = parseInt(round);
 	console.log("X is " + inputX);
 	console.log("Y is " + inputY);
 	console.log("Arithmetic is " + operation);
-	let test = errorCheck(inputX,inputY);
-	if (test == undefined) {
+	console.log("Rounding to " + round + " digits");
+	let test = errorCheck(inputX,inputY,operation);
+	if (test === undefined) {
 		alert("Aborting");
 		return;
 	}
-	calcResult(inputX,inputY,operation);
+	calcResult(inputX,inputY,operation, round);
 }
 
-function errorCheck(x,y) {
-	if ( (x == 0) && (y == 0) ) {
+function errorCheck(x,y,operation) {
+	if ( (x === 0) && (y === 0) ) {
 		alert("Both fields must contain values!");
 		return undefined;
 	}
-	if ( (y == 0) && (operation == 'divide') ) {
+	if ( (y === 0) && (operation === 'divide') ) {
 		alert("Cannot divide through zero!");
 		return undefined;
 	}
@@ -113,38 +114,44 @@ function errorCheck(x,y) {
 		alert("The given numbers are too big to calculate with!");
 		return undefined;
 	}
-	if ( ((x*y < Number.MIN_SAFE_INTEGER) || (x*y > Number.MAX_SAFE_INTEGER)) && (operation == multiply) ) {
+	if ( ((x*y < Number.MIN_SAFE_INTEGER) || (x*y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply') ) {
 		alert("Numbers are too big. Cannot multiply.");
 		return undefined;
 	}
-	if ( ((x/y < Number.MIN_SAFE_INTEGER) || (x/y > Number.MAX_SAFE_INTEGER)) && (operation == multiply) ) {
+	if ( ((x/y < Number.MIN_SAFE_INTEGER) || (x/y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply') ) {
 		alert("Numbers are too big. Cannot divide.");
 		return undefined;
 	}
 	return x,y;
 }
 
-function calcResult(x,y,operation) {
+function calcResult(x,y,operation,round) {
+	round = round - 1;
 	let result;
 	switch (operation) {
 		case "add":
 			result = x + y;
+			result = +(result).toPrecision(round); // used https://stackoverflow.com/a/43351469/
 			console.log(x + " plus " + y + " is " + result);
 			break;
 		case "subtract":
 			result = x - y;
+			result = +(result).toPrecision(round);
 			console.log(x + " minus " + y + " is " + result);
 			break;
 		case "multiply":
 			result = x * y;
+			result = +(result).toPrecision(round);
 			console.log(x + " multiplied by " + y + " is " + result);
 			break;
 		case "divide":
 			result = x / y;
+			result = +(result).toPrecision(round);
 			console.log(x + " divided by " + y + " is " + result);
 			break;
 		case "squareRoot":
 			result = Math.sqrt(x);
+			result = +(result).toPrecision(round);
 			console.log("The square root of " + x + " is " + result);
 	}
 }
