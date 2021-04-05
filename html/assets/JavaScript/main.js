@@ -81,7 +81,7 @@ function expandCollapse(btn) {
 	});
 }
 
-function calc() {
+function initCalc() {
 	let inputX = document.querySelector("#inputX").value;
 	inputX = parseFloat(inputX);
 	let inputY = document.querySelector("#inputY").value;
@@ -165,4 +165,48 @@ function calcResult(x,y,operation,round) {
 			console.log("The cosinus of " + x + " is " + result);
 			break;
 	}
+}
+
+function initGenerateRandom(){
+	let rangeFrom = document.getElementById("rangeFrom").value;
+	rangeFrom = parseInt(rangeFrom);
+	let rangeTo = document.getElementById("rangeTo").value;
+	rangeTo = parseInt(rangeTo);
+	let quantity = document.getElementById("quantity").value;
+	quantity = parseInt(quantity);
+	
+	let randomNumbers = generateRandom(rangeFrom, rangeTo, quantity);
+	console.log(randomNumbers);
+	alert(randomNumbers);
+}
+
+/**
+ * Generates an array filled with random numbers
+ * @param rangeFrom minimum random number
+ * @param rangeTo maximum random number
+ * @param quantity how many numbers to generate
+ * @return {any[]} array with random numbers
+ */
+function generateRandom(rangeFrom, rangeTo, quantity) {
+	let randomNumbers = new Array(quantity);
+	for (let i = 0; i < quantity; i++) {
+		randomNumbers[i] = getRandomInt(rangeFrom, rangeTo);
+	}
+	return randomNumbers;
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ * @param min minimum of random number range
+ * @param max maximum of random number range
+ * @return random integer between specified values
+ */
+function getRandomInt(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
