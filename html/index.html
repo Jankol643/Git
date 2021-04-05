@@ -211,28 +211,48 @@
     <div id="collapseThree" class="accordion-collapse collapse"
          aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <form>
-          <label for="inputX">First number (inputX): </label> <br>
-          <input id="inputX" name="inputX" type="number"> <br>
-          <label for="inputY">Second number (inputY): </label> <br>
-          <input id="inputY" name="inputY" type="number"> <br>
-          <label for="arithoper">Arithmetic operation: </label>
-          <select id="arithoper" name="arithoper">
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-            <option value="multiply">Multiply</option>
-            <option value="divide">Divide</option>
-            <option value="squareRoot">Square Root of x</option>
-            <option value="sinus">Sinus of x</option>
-            <option value="cosinus">Cosinus of x</option>
-          </select>
-          <label for="range">Numbers to round result to: (greater 0)</label>
-          <input id="range" name="range" type="number" min="0">
-          <input onclick="calc();" type="button" value="Calculate">
-        </form>
+
       </div>
     </div>
   </div>
+</div>
+
+<div id="FormDiv">
+  <form id="FormCalc">
+    <fieldset>
+      <legend>Basic calculations</legend>
+      <label for="inputX">First number (inputX): </label> <br>
+      <input id="inputX" name="inputX" type="number"> <br>
+      <label for="inputY">Second number (inputY): </label> <br>
+      <input id="inputY" name="inputY" type="number"> <br>
+      <label for="arithoper">Arithmetic operation: </label>
+      <select id="arithoper" name="arithoper">
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="multiply">Multiply</option>
+        <option value="divide">Divide</option>
+        <option value="squareRoot">Square Root of x</option>
+        <option value="sinus">Sinus of x</option>
+        <option value="cosinus">Cosinus of x</option>
+      </select> <br>
+      <label for="range">Numbers to round result to: (greater 0)</label>
+      <input id="range" name="range" type="number" min="0">
+      <input onclick="initCalc();" type="button" value="Calculate">
+    </fieldset>
+  </form>
+  
+  <form id="FormRandom">
+    <fieldset>
+      <legend>Calculate random numbers in range</legend>
+      <label for="rangeFrom">Minimum</label> <br>
+      <input id="rangeFrom" name="rangeFrom" type="number"> <br>
+      <label for="rangeTo">Maximum</label> <br>
+      <input id="rangeTo" name="rangeTo" type="number"> <br>
+      <label for="quantity">how many numbers to generate: </label>
+      <input id="quantity" name="quantity" type="number" min="1">
+      <input onclick="initGenerateRandom();" type="button" value="Calculate">
+    </fieldset>
+  </form>
 </div>
 
 <div class="animation-ball"></div>

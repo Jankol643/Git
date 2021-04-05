@@ -11,10 +11,6 @@
 	--duration: 0.5s;
 }
 
-html, body {
-	height: screen;
-	margin: auto;
-}
 .animation-ball {
     width: 50px;
     height: 50px;
@@ -73,5 +69,23 @@ span.bl {
 }
 
 span.ye {
-	background-color: var(--cyellow);
+    background-color: var(--cyellow);
+}
+
+/* Styling of form*/
+#FormDiv {
+    display: flex;
+}
+
+#FormCalc {
+    background-color: rgba(240, 96, 125);
+}
+
+#FormRandom {
+    background-color: rgb(92, 255, 97);
+
+}
+
+input:focus {
+    background-color: lightblue;
 }
