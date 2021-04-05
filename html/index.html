@@ -15,7 +15,8 @@
   <title>Hello, world!</title>
 </head>
 <body>
-<button type="button" id="expColBtn" onclick="expColBtn()">Expand/Collapse</button>
+<button id="expColBtn" onclick="expColBtn()" type="button">Expand/Collapse
+</button>
 <h1>Hello, world!</h1>
 <div class="accordion" id="accordionExample">
   <div class="accordion-item">
@@ -31,7 +32,7 @@
       <div class="accordion-body">
         <!-- Color picker -->
         <label for="colorWell">Color:</label>
-        <input type="color" value="#ff0000" id="colorWell">
+        <input id="colorWell" type="color">
         <button type="button" onclick="resetAll()">Reset color of paragraphs to
           black
         </button>
@@ -210,20 +211,21 @@
     <div id="collapseThree" class="accordion-collapse collapse"
          aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-		<form>
-			<label for="inputX">First number (inputX): </label> <br>
-			<input type="number" name="inputX" id="inputX"> <br>
-			<label for="inputY">Second number (inputY): </label> <br>
-			<input type="number" name="inputY" id="inputY"> <br>
-			<select id="arithoper" name="arithoper">
-				<option value="add">Add</option>
-				<option value="subtract">Subtract</option>
-				<option value="multiply">Multiply</option>
-				<option value="divide">Divide</option>
-				<option value="squareRoot">Square Root of x</option>
-			</select>
-			<input type="button" onclick="calc();" value="Calculate">
-		</form>
+        <form>
+          <label for="inputX">First number (inputX): </label> <br>
+          <input id="inputX" name="inputX" type="number"> <br>
+          <label for="inputY">Second number (inputY): </label> <br>
+          <input id="inputY" name="inputY" type="number"> <br>
+          <label for="arithoper">Arithmetic operation: </label>
+          <select id="arithoper" name="arithoper">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+            <option value="squareRoot">Square Root of x</option>
+          </select>
+          <input onclick="calc();" type="button" value="Calculate">
+        </form>
       </div>
     </div>
   </div>
