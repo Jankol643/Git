@@ -153,5 +153,16 @@ function calcResult(x,y,operation,round) {
 			result = Math.sqrt(x);
 			result = +(result).toPrecision(round);
 			console.log("The square root of " + x + " is " + result);
+			break;
+		case "sinus":
+			result = Math.sin(x);
+			result = +(result).toPrecision(round);
+			console.log("The sinus of " + x + " is " + result);
+			break;
+		case "cosinus":
+			result = Math.cos(x);
+			result = +(result).toPrecision(round);
+			console.log("The cosinus of " + x + " is " + result);
+			break;
 	}
 }
