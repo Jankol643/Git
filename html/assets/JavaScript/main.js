@@ -210,3 +210,25 @@ function getRandomInt(min, max) {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * Copies the input of the text field to the clipboard
+ */
+function copyToClipboard() {
+	async function copy() {
+		let value = document.getElementById("inputToCopy").value;
+		let copyText = await navigator.clipboard.writeText(value);
+	}
+	
+	document.getElementById("copyBtn").addEventListener("click", copy);
+}
+
+function pasteFromClipboard() {
+	async function paste() {
+		let textAreaPaste = document.getElementById("textAreaPaste");
+		let text = await navigator.clipboard.readText();
+		textAreaPaste.value += text;
+	}
+	
+	document.getElementById("pasteBtn").addEventListener("click", paste);
+}
