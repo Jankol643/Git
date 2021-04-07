@@ -248,7 +248,38 @@ let canvas = {
   }
 };
 
-let colors = ["blue", "red", "green"];
+let colors = [];
+n = 50;
+generateRandomColors(n);
+
+/**
+ * Generates n random colors and adds them to the color array
+ * @param n number of colors to generate
+ */
+function generateRandomColors(n) {
+  for (let i = 0; i < n; i++) {
+    let c = getRandomColor();
+    colors.push(c);
+  }
+  
+  /**
+   * Generates a random hexadecimal color string
+   * @return {string} hexadecimal color string
+   */
+  function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+}
+console.log(colors);
+
+for (let i = 0; i < 50; i++) {
+  console.log(typeof colors[i]);
+}
 
 /**
  * Create and change direction of ball
@@ -257,7 +288,7 @@ let colors = ["blue", "red", "green"];
 let Ball = {
   /**
    * Creates a ball
-   * @param color color array to pick color from
+   * @param color color of ball
    * @param dx
    * @param dy
    * @return {Ball} Ball to display on canvas
@@ -302,7 +333,7 @@ let Ball = {
   },
   draw: function (x, y) {
     this.moveTo(x, y);
-    var ball = this;
+    let ball = this;
     setTimeout(function () {
       ball.changeDirectionIfNecessary(x, y);
       ball.draw(x + ball.dx, y + ball.dy);
@@ -316,16 +347,9 @@ let Ball = {
 canvas.element.addEventListener('click', function (e) {
   let xCoordinate = e.x - (window.innerWidth - canvas.width) / 2;
   let yCoordinate = e.y - (window.innerHeight - canvas.height) / 2;
-  let randomNumber = Math.floor(Math.random() * 3);
+  let randomNumber = getRandomInt(0,50);
   let selectedColor = colors[randomNumber];
-  
   Ball.create(selectedColor, 4, 3).draw(xCoordinate, yCoordinate);
 });
 
 canvas.initialize();
-let ball1 = Ball.create("blue", 4, 3);
-let ball2 = Ball.create("red", 1, 5);
-let ball3 = Ball.create("green", 2, 2);
-ball1.draw(70, 0);
-ball2.draw(20, 200);
-ball3.draw(300, 330);
