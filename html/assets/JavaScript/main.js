@@ -344,20 +344,29 @@ canvas.element.addEventListener('click', function (e) {
   let randomNumber = getRandomInt(0,50);
   let selectedColor = colors[randomNumber];
   let radius = document.getElementById("ballSize").value;
+  if (radius == "")
+    radius = 40;
   Ball.create(selectedColor, 4, 3, radius).draw(xCoordinate, yCoordinate);
 });
 
 canvas.initialize();
 printBallCount();
 
+let counter = 0;
 function printBallCount() {
   let ballCountNo = document.getElementById('ballCountNo');
   canvas.element.addEventListener('click', function (event) {
-    var element = event.currentTarget;
-    element.clicks = (element.clicks || 0) + 1;
-    console.log(element.clicks);
-    ballCountNo.innerHTML=element.clicks;
+    counter++;
+    ballCountNo.innerHTML = counter.toString();
   });
 }
 
-
+function clearCanvas() {
+  let myNode = document.getElementById("canvas");
+  let ballCountNo = document.getElementById('ballCountNo');
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.lastChild);
+  }
+  counter = 0;
+  ballCountNo.innerHTML = counter.toString();
+}
