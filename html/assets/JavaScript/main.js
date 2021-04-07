@@ -275,11 +275,6 @@ function generateRandomColors(n) {
     return color;
   }
 }
-console.log(colors);
-
-for (let i = 0; i < 50; i++) {
-  console.log(typeof colors[i]);
-}
 
 /**
  * Create and change direction of ball
@@ -353,3 +348,16 @@ canvas.element.addEventListener('click', function (e) {
 });
 
 canvas.initialize();
+printBallCount();
+
+function printBallCount() {
+  let ballCountNo = document.getElementById('ballCountNo');
+  canvas.element.addEventListener('click', function (event) {
+    var element = event.currentTarget;
+    element.clicks = (element.clicks || 0) + 1;
+    console.log(element.clicks);
+    ballCountNo.innerHTML=element.clicks;
+  });
+}
+
+
