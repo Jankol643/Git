@@ -3,181 +3,180 @@
 let colorWell;
 
 window.addEventListener('load', () => {
-    console.log('The page has fully loaded');
-	startup();
-	
+  console.log('The page has fully loaded');
+  startup();
+  
 });
 
 function startup() {
-	console.log("This comes from startup!");
-	console.log("Calling colorPicker()");
-	colorPicker();
+  console.log("This comes from startup!");
+  console.log("Calling colorPicker()");
+  colorPicker();
 }
 
 function colorPicker() {
-	colorWell = document.querySelector("#colorWell");
-	console.log(colorWell);
-	colorWell.addEventListener("input", updateFirst, false);
-	colorWell.addEventListener("change", updateAll, false); // triggered when color picker changes
-
-	colorWell.select();
+  colorWell = document.querySelector("#colorWell");
+  console.log(colorWell);
+  colorWell.addEventListener("input", updateFirst, false);
+  colorWell.addEventListener("change", updateAll, false); // triggered when color picker changes
+  
+  colorWell.select();
 }
 
 // changes first paragraph with class "changeColor" to color of color picker
 function updateFirst(event) {
-	let p = document.querySelector(".changeColor");
-
-	if (p) {
-		p.style.color = event.target.value;
+  let p = document.querySelector(".changeColor");
+  
+  if (p) {
+    p.style.color = event.target.value;
   }
 }
 
 // changes all paragraphs with class "changeColor" to color picker color
 function updateAll(event) {
-	document.querySelectorAll(".changeColor").forEach(function(p) {
-		p.style.color = event.target.value;
+  document.querySelectorAll(".changeColor").forEach(function (p) {
+    p.style.color = event.target.value;
   });
 }
 
 // Reset color of paragraphs to black
 function resetAll() {
-	document.querySelectorAll(".changeColor").forEach(function(p) {
-		p.style.color = "rgb(0,0,0)";
+  document.querySelectorAll(".changeColor").forEach(function (p) {
+    p.style.color = "rgb(0,0,0)";
   });
 }
 
 function expColBtn() {
-    let btn = document.getElementById("expColBtn");
-	expandCollapse(btn);
+  let btn = document.getElementById("expColBtn");
+  expandCollapse(btn);
 }
 
 //Accordeon button open/collapse all
 function expandCollapse(btn) {
-	document.querySelectorAll(".accordion-collapse").forEach(function(collapse) {
-		if (collapse.classList.contains('show') ) { /* Accordion tab is open*/
-			btn.innerHTML = "Close Accordion";
-			collapse.classList.remove('show'); /* remove class "show" */
-			/*Setting properties for open/close button*/
-			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
-				accButton.classList.add('collapsed');
-				/* Set aria-expanded to false */
-				let x = accButton.getAttribute("aria-expanded");
-				x = "true"
-				accButton.setAttribute("aria-expanded", x);
-			});
-		}
-		else { /* Accordion tab is closed*/
-			btn.innerHTML = "Open Accordion";
-			collapse.classList.add('show'); /* add class "show" */
-			/*Setting properties for open/close button*/
-			document.querySelectorAll(".accordion-button").forEach(function(accButton) {
-				accButton.classList.remove('collapsed');
-				/* Set aria-expanded to true */
-				x = accButton.getAttribute("aria-expanded");
-				x = "false"
-				accButton.setAttribute("aria-expanded", x);
-			});
-		}
-	});
+  document.querySelectorAll(".accordion-collapse").forEach(function (collapse) {
+    if (collapse.classList.contains('show')) { /* Accordion tab is open*/
+      btn.innerHTML = "Close Accordion";
+      collapse.classList.remove('show'); /* remove class "show" */
+      /*Setting properties for open/close button*/
+      document.querySelectorAll(".accordion-button").forEach(function (accButton) {
+        accButton.classList.add('collapsed');
+        /* Set aria-expanded to false */
+        let x = accButton.getAttribute("aria-expanded");
+        x = "true"
+        accButton.setAttribute("aria-expanded", x);
+      });
+    } else { /* Accordion tab is closed*/
+      btn.innerHTML = "Open Accordion";
+      collapse.classList.add('show'); /* add class "show" */
+      /*Setting properties for open/close button*/
+      document.querySelectorAll(".accordion-button").forEach(function (accButton) {
+        accButton.classList.remove('collapsed');
+        /* Set aria-expanded to true */
+        x = accButton.getAttribute("aria-expanded");
+        x = "false"
+        accButton.setAttribute("aria-expanded", x);
+      });
+    }
+  });
 }
 
 function initCalc() {
-	let inputX = document.querySelector("#inputX").value;
-	inputX = parseFloat(inputX);
-	let inputY = document.querySelector("#inputY").value;
-	inputY = parseFloat(inputY);
-	let operation = document.querySelector('#arithoper option:checked').value;
-	let round = document.querySelector("#range").value;
-	round = parseInt(round);
-	console.log("X is " + inputX);
-	console.log("Y is " + inputY);
-	console.log("Arithmetic is " + operation);
-	console.log("Rounding to " + round + " digits");
-	let test = errorCheck(inputX,inputY,operation);
-	if (test === undefined) {
-		alert("Aborting");
-		return;
-	}
-	calcResult(inputX,inputY,operation, round);
+  let inputX = document.querySelector("#inputX").value;
+  inputX = parseFloat(inputX);
+  let inputY = document.querySelector("#inputY").value;
+  inputY = parseFloat(inputY);
+  let operation = document.querySelector('#arithoper option:checked').value;
+  let round = document.querySelector("#range").value;
+  round = parseInt(round);
+  console.log("X is " + inputX);
+  console.log("Y is " + inputY);
+  console.log("Arithmetic is " + operation);
+  console.log("Rounding to " + round + " digits");
+  let test = errorCheck(inputX, inputY, operation);
+  if (test === undefined) {
+    alert("Aborting");
+    return;
+  }
+  calcResult(inputX, inputY, operation, round);
 }
 
-function errorCheck(x,y,operation) {
-	if ( (x === 0) && (y === 0) ) {
-		alert("Both fields must contain values!");
-		return undefined;
-	}
-	if ( (y === 0) && (operation === 'divide') ) {
-		alert("Cannot divide through zero!");
-		return undefined;
-	}
-	if ( (x < Number.MIN_SAFE_INTEGER) || (x > Number.MAX_SAFE_INTEGER) || (y < Number.MIN_SAFE_INTEGER) || (y > Number.MAX_SAFE_INTEGER) ) {
-		alert("The given numbers are too big to calculate with!");
-		return undefined;
-	}
-	if ( ((x*y < Number.MIN_SAFE_INTEGER) || (x*y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply') ) {
-		alert("Numbers are too big. Cannot multiply.");
-		return undefined;
-	}
-	if ( ((x/y < Number.MIN_SAFE_INTEGER) || (x/y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply') ) {
-		alert("Numbers are too big. Cannot divide.");
-		return undefined;
-	}
-	return x,y;
+function errorCheck(x, y, operation) {
+  if ((x === 0) && (y === 0)) {
+    alert("Both fields must contain values!");
+    return undefined;
+  }
+  if ((y === 0) && (operation === 'divide')) {
+    alert("Cannot divide through zero!");
+    return undefined;
+  }
+  if ((x < Number.MIN_SAFE_INTEGER) || (x > Number.MAX_SAFE_INTEGER) || (y < Number.MIN_SAFE_INTEGER) || (y > Number.MAX_SAFE_INTEGER)) {
+    alert("The given numbers are too big to calculate with!");
+    return undefined;
+  }
+  if (((x * y < Number.MIN_SAFE_INTEGER) || (x * y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply')) {
+    alert("Numbers are too big. Cannot multiply.");
+    return undefined;
+  }
+  if (((x / y < Number.MIN_SAFE_INTEGER) || (x / y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply')) {
+    alert("Numbers are too big. Cannot divide.");
+    return undefined;
+  }
+  return x, y;
 }
 
-function calcResult(x,y,operation,round) {
-	round = round - 1;
-	let result;
-	switch (operation) {
-		case "add":
-			result = x + y;
-			result = +(result).toPrecision(round); // used https://stackoverflow.com/a/43351469/
-			console.log(x + " plus " + y + " is " + result);
-			break;
-		case "subtract":
-			result = x - y;
-			result = +(result).toPrecision(round);
-			console.log(x + " minus " + y + " is " + result);
-			break;
-		case "multiply":
-			result = x * y;
-			result = +(result).toPrecision(round);
-			console.log(x + " multiplied by " + y + " is " + result);
-			break;
-		case "divide":
-			result = x / y;
-			result = +(result).toPrecision(round);
-			console.log(x + " divided by " + y + " is " + result);
-			break;
-		case "squareRoot":
-			result = Math.sqrt(x);
-			result = +(result).toPrecision(round);
-			console.log("The square root of " + x + " is " + result);
-			break;
-		case "sinus":
-			result = Math.sin(x);
-			result = +(result).toPrecision(round);
-			console.log("The sinus of " + x + " is " + result);
-			break;
-		case "cosinus":
-			result = Math.cos(x);
-			result = +(result).toPrecision(round);
-			console.log("The cosinus of " + x + " is " + result);
-			break;
-	}
+function calcResult(x, y, operation, round) {
+  round = round - 1;
+  let result;
+  switch (operation) {
+    case "add":
+      result = x + y;
+      result = +(result).toPrecision(round); // used https://stackoverflow.com/a/43351469/
+      console.log(x + " plus " + y + " is " + result);
+      break;
+    case "subtract":
+      result = x - y;
+      result = +(result).toPrecision(round);
+      console.log(x + " minus " + y + " is " + result);
+      break;
+    case "multiply":
+      result = x * y;
+      result = +(result).toPrecision(round);
+      console.log(x + " multiplied by " + y + " is " + result);
+      break;
+    case "divide":
+      result = x / y;
+      result = +(result).toPrecision(round);
+      console.log(x + " divided by " + y + " is " + result);
+      break;
+    case "squareRoot":
+      result = Math.sqrt(x);
+      result = +(result).toPrecision(round);
+      console.log("The square root of " + x + " is " + result);
+      break;
+    case "sinus":
+      result = Math.sin(x);
+      result = +(result).toPrecision(round);
+      console.log("The sinus of " + x + " is " + result);
+      break;
+    case "cosinus":
+      result = Math.cos(x);
+      result = +(result).toPrecision(round);
+      console.log("The cosinus of " + x + " is " + result);
+      break;
+  }
 }
 
-function initGenerateRandom(){
-	let rangeFrom = document.getElementById("rangeFrom").value;
-	rangeFrom = parseInt(rangeFrom);
-	let rangeTo = document.getElementById("rangeTo").value;
-	rangeTo = parseInt(rangeTo);
-	let quantity = document.getElementById("quantity").value;
-	quantity = parseInt(quantity);
-	
-	let randomNumbers = generateRandom(rangeFrom, rangeTo, quantity);
-	console.log(randomNumbers);
-	alert(randomNumbers);
+function initGenerateRandom() {
+  let rangeFrom = document.getElementById("rangeFrom").value;
+  rangeFrom = parseInt(rangeFrom);
+  let rangeTo = document.getElementById("rangeTo").value;
+  rangeTo = parseInt(rangeTo);
+  let quantity = document.getElementById("quantity").value;
+  quantity = parseInt(quantity);
+  
+  let randomNumbers = generateRandom(rangeFrom, rangeTo, quantity);
+  console.log(randomNumbers);
+  alert(randomNumbers);
 }
 
 /**
@@ -188,11 +187,11 @@ function initGenerateRandom(){
  * @return {any[]} array with random numbers
  */
 function generateRandom(rangeFrom, rangeTo, quantity) {
-	let randomNumbers = new Array(quantity);
-	for (let i = 0; i < quantity; i++) {
-		randomNumbers[i] = getRandomInt(rangeFrom, rangeTo);
-	}
-	return randomNumbers;
+  let randomNumbers = new Array(quantity);
+  for (let i = 0; i < quantity; i++) {
+    randomNumbers[i] = getRandomInt(rangeFrom, rangeTo);
+  }
+  return randomNumbers;
 }
 
 /**
@@ -206,29 +205,127 @@ function generateRandom(rangeFrom, rangeTo, quantity) {
  * @return random integer between specified values
  */
 function getRandomInt(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
  * Copies the input of the text field to the clipboard
  */
 function copyToClipboard() {
-	async function copy() {
-		let value = document.getElementById("inputToCopy").value;
-		let copyText = await navigator.clipboard.writeText(value);
-	}
-	
-	document.getElementById("copyBtn").addEventListener("click", copy);
+  async function copy() {
+    let value = document.getElementById("inputToCopy").value;
+    let copyText = await navigator.clipboard.writeText(value);
+  }
+  
+  document.getElementById("copyBtn").addEventListener("click", copy);
 }
 
 function pasteFromClipboard() {
-	async function paste() {
-		let textAreaPaste = document.getElementById("textAreaPaste");
-		let text = await navigator.clipboard.readText();
-		textAreaPaste.value += text;
-	}
-	
-	document.getElementById("pasteBtn").addEventListener("click", paste);
+  async function paste() {
+    let textAreaPaste = document.getElementById("textAreaPaste");
+    let text = await navigator.clipboard.readText();
+    textAreaPaste.value += text;
+  }
+  
+  document.getElementById("pasteBtn").addEventListener("click", paste);
 }
+
+/**
+ * Create and append canvas for balls to window
+ * @type {{width: number, initialize: canvas.initialize, element: HTMLElement, height: number}}
+ */
+let canvas = {
+  element: document.getElementById('canvas'),
+  width: 800, //600,
+  height: 600,//400,
+  initialize: function () {
+    this.element.style.width = this.width + 'px';
+    this.element.style.height = this.height + 'px';
+    
+    document.body.appendChild(this.element);
+  }
+};
+
+let colors = ["blue", "red", "green"];
+
+/**
+ * Create and change direction of ball
+ * @type {{changeDirectionIfNecessary: Ball.changeDirectionIfNecessary, create: (function(*, *, *): Ball), draw: Ball.draw, moveTo: Ball.moveTo}}
+ */
+let Ball = {
+  /**
+   * Creates a ball
+   * @param color color array to pick color from
+   * @param dx
+   * @param dy
+   * @return {Ball} Ball to display on canvas
+   */
+  create: function (color, dx, dy) {
+    let newBall = Object.create(this);
+    newBall.dx = dx;
+    newBall.dy = dy;
+    newBall.width = 40;
+    newBall.height = 40;
+    newBall.element = document.createElement('div');
+    newBall.element.style.backgroundColor = color;
+    newBall.element.style.width = newBall.width + 'px';
+    newBall.element.style.height = newBall.height + 'px';
+    newBall.element.className += 'ball';
+    newBall.width = parseInt(newBall.element.style.width);
+    newBall.height = parseInt(newBall.element.style.height);
+    canvas.element.appendChild(newBall.element);
+    return newBall;
+  },
+  /**
+   * Moves the ball to the coordinates in pixels
+   * @param x x-Coordinate to move to
+   * @param y y-Coordinate to move to
+   */
+  moveTo: function (x, y) {
+    this.element.style.left = x + 'px';
+    this.element.style.top = y + 'px';
+  },
+  /**
+   * Changes the direction of the ball if it is on the border of the canvas
+   * @param x x-coordinate of ball
+   * @param y y-coordinate of ball
+   */
+  changeDirectionIfNecessary: function (x, y) {
+    if (x < 0 || x > canvas.width - this.width) { //left and right border
+      this.dx = -this.dx;
+    }
+    if (y < 0 || y > canvas.height - this.height) { //top and bottom border
+      this.dy = -this.dy;
+    }
+  },
+  draw: function (x, y) {
+    this.moveTo(x, y);
+    var ball = this;
+    setTimeout(function () {
+      ball.changeDirectionIfNecessary(x, y);
+      ball.draw(x + ball.dx, y + ball.dy);
+    }, 1000 / 60);
+  }
+};
+
+/**
+ * Creates a new ball on click
+ */
+canvas.element.addEventListener('click', function (e) {
+  let xCoordinate = e.x - (window.innerWidth - canvas.width) / 2;
+  let yCoordinate = e.y - (window.innerHeight - canvas.height) / 2;
+  let randomNumber = Math.floor(Math.random() * 3);
+  let selectedColor = colors[randomNumber];
+  
+  Ball.create(selectedColor, 4, 3).draw(xCoordinate, yCoordinate);
+});
+
+canvas.initialize();
+let ball1 = Ball.create("blue", 4, 3);
+let ball2 = Ball.create("red", 1, 5);
+let ball3 = Ball.create("green", 2, 2);
+ball1.draw(70, 0);
+ball2.draw(20, 200);
+ball3.draw(300, 330);
