@@ -286,18 +286,17 @@ let Ball = {
    * @param color color of ball
    * @param dx
    * @param dy
+   * @param radius radius of ball
    * @return {Ball} Ball to display on canvas
    */
-  create: function (color, dx, dy) {
+  create: function (color, dx, dy, radius) {
     let newBall = Object.create(this);
     newBall.dx = dx;
     newBall.dy = dy;
-    newBall.width = 40;
-    newBall.height = 40;
     newBall.element = document.createElement('div');
     newBall.element.style.backgroundColor = color;
-    newBall.element.style.width = newBall.width + 'px';
-    newBall.element.style.height = newBall.height + 'px';
+    newBall.element.style.width = radius + 'px';
+    newBall.element.style.height = radius + 'px';
     newBall.element.className += 'ball';
     newBall.width = parseInt(newBall.element.style.width);
     newBall.height = parseInt(newBall.element.style.height);
@@ -344,7 +343,8 @@ canvas.element.addEventListener('click', function (e) {
   let yCoordinate = e.y - (window.innerHeight - canvas.height) / 2;
   let randomNumber = getRandomInt(0,50);
   let selectedColor = colors[randomNumber];
-  Ball.create(selectedColor, 4, 3).draw(xCoordinate, yCoordinate);
+  let radius = document.getElementById("ballSize").value;
+  Ball.create(selectedColor, 4, 3, radius).draw(xCoordinate, yCoordinate);
 });
 
 canvas.initialize();
