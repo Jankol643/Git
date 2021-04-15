@@ -368,5 +368,5 @@ function clearCanvas() {
     myNode.removeChild(myNode.lastChild);
   }
   counter = 0;
-  ballCountNo.innerHTML = counter.toString();
+  ballCountNo.innerHTML = counter;
 }
