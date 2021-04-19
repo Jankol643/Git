@@ -88,18 +88,23 @@ function initCalc() {
   let operation = document.querySelector('#arithoper option:checked').value;
   let round = document.querySelector("#range").value;
   round = parseInt(round);
-  console.log("X is " + inputX);
-  console.log("Y is " + inputY);
-  console.log("Arithmetic is " + operation);
-  console.log("Rounding to " + round + " digits");
   let test = errorCheck(inputX, inputY, operation);
-  if (test === undefined) {
+  if (test === undefined) { // input error(s) occured
     alert("Aborting");
-    return;
+    return; // exiting program
   }
+  if (round > 16)
+    console.log("Rounding to 16 digits instead of " + round + " because of lack of precision.");
   calcResult(inputX, inputY, operation, round);
 }
 
+/**
+ * Performs error checks on values passed to function
+ * @param x first number
+ * @param y second number
+ * @param operation operation to perform on the numbers a, b
+ * @return {undefined|*} undefined when errors are encountered
+ */
 function errorCheck(x, y, operation) {
   if ((x === 0) && (y === 0)) {
     alert("Both fields must contain values!");
@@ -117,7 +122,7 @@ function errorCheck(x, y, operation) {
     alert("Numbers are too big. Cannot multiply.");
     return undefined;
   }
-  if (((x / y < Number.MIN_SAFE_INTEGER) || (x / y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply')) {
+  if (((x / y < Number.MIN_SAFE_INTEGER) || (x / y > Number.MAX_SAFE_INTEGER)) && (operation === 'divide')) {
     alert("Numbers are too big. Cannot divide.");
     return undefined;
   }
@@ -125,7 +130,6 @@ function errorCheck(x, y, operation) {
 }
 
 function calcResult(x, y, operation, round) {
-  round = round - 1;
   let result;
   switch (operation) {
     case "add":
@@ -367,4 +371,18 @@ function clearCanvas() {
   }
   counter = 0;
   ballCountNo.innerHTML = counter;
+}
+
+/**
+ * Find area of square circumscribed by circle
+ */
+function AreaOfSquareCircumscribedByCircle() {
+  // Radius of a circle
+  let r = 3;
+  document.write(" Area of square = " + find_Area(r));
+  
+  // Function to find area of square
+  function find_Area(r) {
+    return (2 * r * r);
+  }
 }
