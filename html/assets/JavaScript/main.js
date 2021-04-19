@@ -335,6 +335,7 @@ let Ball = {
   }
 };
 
+let counter = 0;
 /**
  * Creates a new ball on click
  */
@@ -345,22 +346,19 @@ canvas.element.addEventListener('click', function (e) {
   let selectedColor = colors[randomNumber];
   let radius = document.getElementById("ballSize").value;
   if (radius == "")
-    radius = 40;
+    radius = 40; // default radius if none is specified
   Ball.create(selectedColor, 4, 3, radius).draw(xCoordinate, yCoordinate);
+  
+  counter++; // increase ball count
+  let ballCountNo = document.getElementById('ballCountNo');
+  ballCountNo.innerHTML = counter.toString(); // update ball counter in HTML
 });
 
 canvas.initialize();
-printBallCount();
 
-let counter = 0;
-function printBallCount() {
-  let ballCountNo = document.getElementById('ballCountNo');
-  canvas.element.addEventListener('click', function (event) {
-    counter++;
-    ballCountNo.innerHTML = counter.toString();
-  });
-}
-
+/**
+ * Deletes all balls from the canvas and resets the ball counter to zero
+ */
 function clearCanvas() {
   let myNode = document.getElementById("canvas");
   let ballCountNo = document.getElementById('ballCountNo');
