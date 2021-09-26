@@ -238,141 +238,144 @@ function pasteFromClipboard() {
     document.getElementById("pasteBtn").addEventListener("click", paste);
 }
 
-/**
- * Create and append canvas for balls to window
- * @type {{width: number, initialize: canvas.initialize, element: HTMLElement, height: number}}
- */
-let canvas = {
-    element: document.getElementById('canvas'),
-    width: 800, //600,
-    height: 600, //400,
-    initialize: function () {
-        this.element.style.width = this.width + 'px';
-        this.element.style.height = this.height + 'px';
-
-        document.body.appendChild(this.element);
-    }
-};
-
-let colors = [];
-n = 50;
-generateRandomColors(n);
-
-/**
- * Generates n random colors and adds them to the color array
- * @param n number of colors to generate
- */
-function generateRandomColors(n) {
-    for (let i = 0; i < n; i++) {
-        let c = getRandomColor();
-        colors.push(c);
-    }
+function BouncingBalls() {
 
     /**
-     * Generates a random hexadecimal color string
-     * @return {string} hexadecimal color string
+     * Create and append canvas for balls to window
+     * @type {{width: number, initialize: canvas.initialize, element: HTMLElement, height: number}}
      */
-    function getRandomColor() {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
+    let canvas = {
+        element: document.getElementById('canvas'),
+        width: 800, //600,
+        height: 600, //400,
+        initialize: function () {
+            this.element.style.width = this.width + 'px';
+            this.element.style.height = this.height + 'px';
+
+            document.body.appendChild(this.element);
         }
-        return color;
-    }
-}
+    };
 
-/**
- * Create and change direction of ball
- * @type {{changeDirectionIfNecessary: Ball.changeDirectionIfNecessary, create: (function(*, *, *): Ball), draw: Ball.draw, moveTo: Ball.moveTo}}
- */
-let Ball = {
+    let colors = [];
+    n = 50;
+    generateRandomColors(n);
+
     /**
-     * Creates a ball
-     * @param color color of ball
-     * @param dx
-     * @param dy
-     * @param radius radius of ball
-     * @return {Ball} Ball to display on canvas
+     * Generates n random colors and adds them to the color array
+     * @param n number of colors to generate
      */
-    create: function (color, dx, dy, radius) {
-        let newBall = Object.create(this);
-        newBall.dx = dx;
-        newBall.dy = dy;
-        newBall.element = document.createElement('div');
-        newBall.element.style.backgroundColor = color;
-        newBall.element.style.width = radius + 'px';
-        newBall.element.style.height = radius + 'px';
-        newBall.element.className += 'ball';
-        newBall.width = parseInt(newBall.element.style.width);
-        newBall.height = parseInt(newBall.element.style.height);
-        canvas.element.appendChild(newBall.element);
-        return newBall;
-    },
-    /**
-     * Moves the ball to the coordinates in pixels
-     * @param x x-Coordinate to move to
-     * @param y y-Coordinate to move to
-     */
-    moveTo: function (x, y) {
-        this.element.style.left = x + 'px';
-        this.element.style.top = y + 'px';
-    },
-    /**
-     * Changes the direction of the ball if it is on the border of the canvas
-     * @param x x-coordinate of ball
-     * @param y y-coordinate of ball
-     */
-    changeDirectionIfNecessary: function (x, y) {
-        if (x < 0 || x > canvas.width - this.width) { //left and right border
-            this.dx = -this.dx;
+    function generateRandomColors(n) {
+        for (let i = 0; i < n; i++) {
+            let c = getRandomColor();
+            colors.push(c);
         }
-        if (y < 0 || y > canvas.height - this.height) { //top and bottom border
-            this.dy = -this.dy;
+
+        /**
+         * Generates a random hexadecimal color string
+         * @return {string} hexadecimal color string
+         */
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
-    },
-    draw: function (x, y) {
-        this.moveTo(x, y);
-        let ball = this;
-        setTimeout(function () {
-            ball.changeDirectionIfNecessary(x, y);
-            ball.draw(x + ball.dx, y + ball.dy);
-        }, 1000 / 60);
     }
-};
 
-let counter = 0;
-/**
- * Creates a new ball on click
- */
-canvas.element.addEventListener('click', function (e) {
-    let xCoordinate = e.x - (window.innerWidth - canvas.width) / 2;
-    let yCoordinate = e.y - (window.innerHeight - canvas.height) / 2;
-    let randomNumber = getRandomInt(0, 50);
-    let selectedColor = colors[randomNumber];
-    let radius = document.getElementById("ballSize").value;
-    if (radius == "")
-        radius = 40; // default radius if none is specified
-    Ball.create(selectedColor, 4, 3, radius).draw(xCoordinate, yCoordinate);
+    /**
+     * Create and change direction of ball
+     * @type {{changeDirectionIfNecessary: Ball.changeDirectionIfNecessary, create: (function(*, *, *): Ball), draw: Ball.draw, moveTo: Ball.moveTo}}
+     */
+    let Ball = {
+        /**
+         * Creates a ball
+         * @param color color of ball
+         * @param dx
+         * @param dy
+         * @param radius radius of ball
+         * @return {Ball} Ball to display on canvas
+         */
+        create: function (color, dx, dy, radius) {
+            let newBall = Object.create(this);
+            newBall.dx = dx;
+            newBall.dy = dy;
+            newBall.element = document.createElement('div');
+            newBall.element.style.backgroundColor = color;
+            newBall.element.style.width = radius + 'px';
+            newBall.element.style.height = radius + 'px';
+            newBall.element.className += 'ball';
+            newBall.width = parseInt(newBall.element.style.width);
+            newBall.height = parseInt(newBall.element.style.height);
+            canvas.element.appendChild(newBall.element);
+            return newBall;
+        },
+        /**
+         * Moves the ball to the coordinates in pixels
+         * @param x x-Coordinate to move to
+         * @param y y-Coordinate to move to
+         */
+        moveTo: function (x, y) {
+            this.element.style.left = x + 'px';
+            this.element.style.top = y + 'px';
+        },
+        /**
+         * Changes the direction of the ball if it is on the border of the canvas
+         * @param x x-coordinate of ball
+         * @param y y-coordinate of ball
+         */
+        changeDirectionIfNecessary: function (x, y) {
+            if (x < 0 || x > canvas.width - this.width) { //left and right border
+                this.dx = -this.dx;
+            }
+            if (y < 0 || y > canvas.height - this.height) { //top and bottom border
+                this.dy = -this.dy;
+            }
+        },
+        draw: function (x, y) {
+            this.moveTo(x, y);
+            let ball = this;
+            setTimeout(function () {
+                ball.changeDirectionIfNecessary(x, y);
+                ball.draw(x + ball.dx, y + ball.dy);
+            }, 1000 / 60);
+        }
+    };
 
-    counter++; // increase ball count
-    let ballCountNo = document.getElementById('ballCountNo');
-    ballCountNo.innerHTML = counter.toString(); // update ball counter in HTML
-});
+    let counter = 0;
+    /**
+     * Creates a new ball on click
+     */
+    canvas.element.addEventListener('click', function (e) {
+        let xCoordinate = e.x - (window.innerWidth - canvas.width) / 2;
+        let yCoordinate = e.y - (window.innerHeight - canvas.height) / 2;
+        let randomNumber = getRandomInt(0, 50);
+        let selectedColor = colors[randomNumber];
+        let radius = document.getElementById("ballSize").value;
+        if (radius == "")
+            radius = 40; // default radius if none is specified
+        Ball.create(selectedColor, 4, 3, radius).draw(xCoordinate, yCoordinate);
 
-canvas.initialize();
+        counter++; // increase ball count
+        let ballCountNo = document.getElementById('ballCountNo');
+        ballCountNo.innerHTML = counter.toString(); // update ball counter in HTML
+    });
 
-/**
- * Deletes all balls from the canvas and resets the ball counter to zero
- */
-function clearCanvas() {
-    let myNode = document.getElementById("canvas");
-    let ballCountNo = document.getElementById('ballCountNo');
-    while (myNode.firstChild) {
-        myNode.removeChild(myNode.lastChild);
+    canvas.initialize();
+
+    /**
+     * Deletes all balls from the canvas and resets the ball counter to zero
+     */
+    function clearCanvas() {
+        let myNode = document.getElementById("canvas");
+        let ballCountNo = document.getElementById('ballCountNo');
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.lastChild);
+        }
+        counter = 0;
+        ballCountNo.innerHTML = counter;
     }
-    counter = 0;
-    ballCountNo.innerHTML = counter;
 }
 
 /**
