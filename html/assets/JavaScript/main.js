@@ -391,3 +391,102 @@ function AreaOfSquareCircumscribedByCircle() {
         return (2 * r * r);
     }
 }
+
+/**
+ * Cuts the first/last x characters from an input
+ */
+function cutFirstLastChars() {
+    function readCheckValues() {
+        let enteredText = document.getElementById('textToCut').value;
+        let removePos = document.getElementById('cutSelect').options[select.selectedIndex].value;
+        let noChars = document.getElementById('noChars').value;
+
+        checkInput();
+
+        function checkInput() {
+            // ensuring that text was entered
+            try {
+                if (enteredText.length == 0) {
+                    msg = "Text cutter: You have to enter a text";
+                    alert(msg);
+                    console.error(msg);
+                    throw msg;
+                }
+            } catch (error) {}
+
+            // checking for too low number of characters entered
+            try {
+                if (enteredText.length < noChars) {
+                    msg = "Text cutter: The text entered cannot be shortened because it is shorter than the entered number of characters";
+                    alert(msg);
+                    console.error(msg);
+                    throw msg;
+                }
+            } catch (error) {}
+
+            // checking if entered number of characters equals text length
+            try {
+                if (enteredText.length == noChars) {
+                    msg = "Text cutter: The result of the shortening would be nothing because the text length equals the entered number of characters";
+                    alert(msg);
+                    console.error(msg);
+                    throw msg;
+                }
+            } catch (error) {}
+
+            //checking for unselected option
+            try {
+                if (removePos == "choose") {
+                    msg = "Text cutter: You have to choose an option";
+                    alert(msg);
+                    console.error(msg);
+                    throw msg;
+                }
+            } catch (error) {}
+        }
+
+        return [enteredText, select, removePos, noChars];
+    }
+
+    let enteredText = readCheckValues()[0];
+    let removePos = readCheckValues()[2];
+    let noChars = readCheckValues()[3];
+    let output = document.getElementById('cutOutput');
+
+    let numberOfLineBreaks = (enteredText.match(/\n/g) || []).length; // matches all newlines in the global scope
+    if (numberOfLineBreaks > 0) { // entered text contains multiple lines
+        let outputLines = [];
+        let enteredTextArray = enteredText.split("\n"); // split lines into array
+        for (let i = 0; i < enteredTextArray.length; i++) {
+            outputLines[i] = RemoveText(enteredTextArray[i], noChars);
+        }
+        // format output to be properly displayed in textarea
+        for (let i = 0; i < outputLines.length; i++) {
+            let pElem = document.createElement('p');
+            pElem.appendChild(document.createTextNode(outputLines[i]));
+            output.appendChild(pElem);
+        }
+    } else { // entered text contains only one line
+        let outputText = RemoveText(enteredText, noChars);
+        let pElem = document.createElement('p');
+        pElem.appendChild(document.createTextNode(outputText));
+        output.appendChild(pElem);
+    }
+
+    /**
+     * Remove specified number of character from line
+     * @param {String} line - entered line
+     * @param {Number} noChars - number of characters to cut from line
+     * @returns line - cut line
+     */
+    function RemoveText(line, noChars) {
+        let line1 = line;
+        if (removePos == "start") { // remove from start
+            line1 = line.substring(noChars, line.length);
+        } else { // remove from end
+            line1 = line.substring(0, line.length - noChars);
+        }
+        return line1;
+    }
+    
+}

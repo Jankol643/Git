@@ -287,6 +287,20 @@
 
     <div id="canvas"></div>
 
+    <!-- Text Cutter -->
+    <h1>Text Cutter</h1>
+    <label for="textToCut">Please enter text in the following textarea!</label>
+    <textarea id="textToCut" name="textToCut"></textarea>
+    <select id="cutSelect" name="cutSelect">
+        <option value="choose">Please choose an option</option>
+        <option value="start">remove from start</option>
+        <option value="end">remove from end</option>
+    </select>
+    <input type="number" id="noChars" name="noChars" min="1">
+    <button id="textCutBtn" type="button" onclick="cutFirstLastChars()">Clean Text!</button>
+    <label for="cutOutput">In the following textarea you can see the result.</label>
+    <div id="cutOutput" name="cutOutput"></div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
