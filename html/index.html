@@ -233,7 +233,7 @@
                 </select> <br>
                 <label for="range">Numbers to round result to: (greater 0)</label>
                 <input id="range" name="range" type="number" min="0">
-                <input onclick="initCalc();" type="button" value="Calculate">
+                <input onclick="CalcBasic();" type="button" value="Calculate">
             </fieldset>
         </form>
 
@@ -246,26 +246,26 @@
                 <input id="rangeTo" name="rangeTo" type="number"> <br>
                 <label for="quantity">how many numbers to generate: </label>
                 <input id="quantity" name="quantity" type="number" min="1">
-                <input onclick="initGenerateRandom();" type="button" value="Calculate">
+                <input onclick="GenerateRandom();" type="button" value="Calculate">
             </fieldset>
         </form>
     </div>
 
-    <div>
+    <div id="CopyPaste">
         <form>
             <!-- The text field -->
             <label for="inputToCopy">Text to copy: </label>
             <input type="text" id="inputToCopy">
 
             <!-- The button used to copy the text -->
-            <button type="button" id="copyBtn" onclick="copyToClipboard()">Copy
+            <button type="button" id="copyBtn" onclick="copyPaste('copy')">Copy
                 text</button>
         </form>
 
         <form>
             <label for="textAreaPaste">Paste text using the button: </label>
             <textarea id="textAreaPaste" rows="4" cols="50"></textarea>
-            <button type="button" id="pasteBtn" onclick="pasteFromClipboard()">Paste
+            <button type="button" id="pasteBtn" onclick="copyPaste('paste')">Paste
                 from
                 clipboard to
                 textarea</button>
@@ -273,7 +273,7 @@
 
     </div>
 
-    <div style="height:100px;">
+    <div id="BouncingBalls">
         <h1>Bouncing Balls</h1>
         <!-- adapted from https://codepen.io/reciosonny/pen/bZJxKP -->
         <p>Click inside the ball area to add balls</p>
@@ -283,9 +283,9 @@
             <div id="ballCountNo"></div>
         </div>
         <button id="clearCanvas" type="button" onclick="clearCanvas()">Clear canvas</button>
+        
+        <div id="canvas"></div>
     </div>
-
-    <div id="canvas"></div>
 
     <!-- Text Cutter -->
     <h1>Text Cutter</h1>

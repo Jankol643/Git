@@ -10,7 +10,6 @@ window.addEventListener('load', () => {
 
 function startup() {
     console.log("This comes from startup!");
-    console.log("Calling colorPicker()");
     colorPicker();
 }
 
@@ -86,160 +85,179 @@ function expColBtn() {
     }
 }
 
-function initCalc() {
-    let inputX = document.querySelector("#inputX").value;
-    inputX = parseFloat(inputX);
-    let inputY = document.querySelector("#inputY").value;
-    inputY = parseFloat(inputY);
-    let operation = document.querySelector('#arithoper option:checked').value;
-    let round = document.querySelector("#range").value;
-    round = parseInt(round);
-    let test = errorCheck(inputX, inputY, operation);
-    if (test === undefined) { // input error(s) occured
-        alert("Aborting");
-        return; // exiting program
+function CalcBasic() {
+
+    initCalc();
+
+    function initCalc() {
+        let inputX = document.querySelector("#inputX").value;
+        inputX = parseFloat(inputX);
+        let inputY = document.querySelector("#inputY").value;
+        inputY = parseFloat(inputY);
+        let operation = document.querySelector('#arithoper option:checked').value;
+        let round = document.querySelector("#range").value;
+        round = parseInt(round);
+        let test = errorCheck(inputX, inputY, operation);
+        if (test === undefined) { // input error(s) occured
+            alert("Aborting");
+            return; // exiting program
+        }
+        if (round > 16)
+            console.log("Rounding to 16 digits instead of " + round + " because of lack of precision.");
+        calcResult(inputX, inputY, operation, round);
     }
-    if (round > 16)
-        console.log("Rounding to 16 digits instead of " + round + " because of lack of precision.");
-    calcResult(inputX, inputY, operation, round);
+
+    /**
+     * Performs error checks on values passed to function
+     * @param x first number
+     * @param y second number
+     * @param operation operation to perform on the numbers a, b
+     * @return {undefined|*} undefined when errors are encountered
+     */
+    function errorCheck(x, y, operation) {
+        if ((x === 0) && (y === 0)) {
+            alert("Both fields must contain values!");
+            return undefined;
+        }
+        if ((y === 0) && (operation === 'divide')) {
+            alert("Cannot divide through zero!");
+            return undefined;
+        }
+        if ((x < Number.MIN_SAFE_INTEGER) || (x > Number.MAX_SAFE_INTEGER) || (y < Number.MIN_SAFE_INTEGER) || (y > Number.MAX_SAFE_INTEGER)) {
+            alert("The given numbers are too big to calculate with!");
+            return undefined;
+        }
+        if (((x * y < Number.MIN_SAFE_INTEGER) || (x * y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply')) {
+            alert("Numbers are too big. Cannot multiply.");
+            return undefined;
+        }
+        if (((x / y < Number.MIN_SAFE_INTEGER) || (x / y > Number.MAX_SAFE_INTEGER)) && (operation === 'divide')) {
+            alert("Numbers are too big. Cannot divide.");
+            return undefined;
+        }
+        return x, y;
+    }
+
+    function calcResult(x, y, operation, round) {
+        let result;
+        switch (operation) {
+            case "add":
+                result = x + y;
+                result = +(result).toPrecision(round); // used https://stackoverflow.com/a/43351469/
+                console.log(x + " plus " + y + " is " + result);
+                break;
+            case "subtract":
+                result = x - y;
+                result = +(result).toPrecision(round);
+                console.log(x + " minus " + y + " is " + result);
+                break;
+            case "multiply":
+                result = x * y;
+                result = +(result).toPrecision(round);
+                console.log(x + " multiplied by " + y + " is " + result);
+                break;
+            case "divide":
+                result = x / y;
+                result = +(result).toPrecision(round);
+                console.log(x + " divided by " + y + " is " + result);
+                break;
+            case "squareRoot":
+                result = Math.sqrt(x);
+                result = +(result).toPrecision(round);
+                console.log("The square root of " + x + " is " + result);
+                break;
+            case "sinus":
+                result = Math.sin(x);
+                result = +(result).toPrecision(round);
+                console.log("The sinus of " + x + " is " + result);
+                break;
+            case "cosinus":
+                result = Math.cos(x);
+                result = +(result).toPrecision(round);
+                console.log("The cosinus of " + x + " is " + result);
+                break;
+        }
+    }
 }
 
-/**
- * Performs error checks on values passed to function
- * @param x first number
- * @param y second number
- * @param operation operation to perform on the numbers a, b
- * @return {undefined|*} undefined when errors are encountered
- */
-function errorCheck(x, y, operation) {
-    if ((x === 0) && (y === 0)) {
-        alert("Both fields must contain values!");
-        return undefined;
-    }
-    if ((y === 0) && (operation === 'divide')) {
-        alert("Cannot divide through zero!");
-        return undefined;
-    }
-    if ((x < Number.MIN_SAFE_INTEGER) || (x > Number.MAX_SAFE_INTEGER) || (y < Number.MIN_SAFE_INTEGER) || (y > Number.MAX_SAFE_INTEGER)) {
-        alert("The given numbers are too big to calculate with!");
-        return undefined;
-    }
-    if (((x * y < Number.MIN_SAFE_INTEGER) || (x * y > Number.MAX_SAFE_INTEGER)) && (operation === 'multiply')) {
-        alert("Numbers are too big. Cannot multiply.");
-        return undefined;
-    }
-    if (((x / y < Number.MIN_SAFE_INTEGER) || (x / y > Number.MAX_SAFE_INTEGER)) && (operation === 'divide')) {
-        alert("Numbers are too big. Cannot divide.");
-        return undefined;
-    }
-    return x, y;
-}
+function GenerateRandom() {
+    initGenerateRandom();
 
-function calcResult(x, y, operation, round) {
-    let result;
-    switch (operation) {
-        case "add":
-            result = x + y;
-            result = +(result).toPrecision(round); // used https://stackoverflow.com/a/43351469/
-            console.log(x + " plus " + y + " is " + result);
-            break;
-        case "subtract":
-            result = x - y;
-            result = +(result).toPrecision(round);
-            console.log(x + " minus " + y + " is " + result);
-            break;
-        case "multiply":
-            result = x * y;
-            result = +(result).toPrecision(round);
-            console.log(x + " multiplied by " + y + " is " + result);
-            break;
-        case "divide":
-            result = x / y;
-            result = +(result).toPrecision(round);
-            console.log(x + " divided by " + y + " is " + result);
-            break;
-        case "squareRoot":
-            result = Math.sqrt(x);
-            result = +(result).toPrecision(round);
-            console.log("The square root of " + x + " is " + result);
-            break;
-        case "sinus":
-            result = Math.sin(x);
-            result = +(result).toPrecision(round);
-            console.log("The sinus of " + x + " is " + result);
-            break;
-        case "cosinus":
-            result = Math.cos(x);
-            result = +(result).toPrecision(round);
-            console.log("The cosinus of " + x + " is " + result);
-            break;
+    function initGenerateRandom() {
+        let rangeFrom = document.getElementById("rangeFrom").value;
+        rangeFrom = parseInt(rangeFrom);
+        let rangeTo = document.getElementById("rangeTo").value;
+        rangeTo = parseInt(rangeTo);
+        let quantity = document.getElementById("quantity").value;
+        quantity = parseInt(quantity);
+
+        let randomNumbers = generateRandom(rangeFrom, rangeTo, quantity);
+        console.log(randomNumbers);
+        alert(randomNumbers);
+    }
+
+    /**
+     * Generates an array filled with random numbers
+     * @param rangeFrom minimum random number
+     * @param rangeTo maximum random number
+     * @param quantity how many numbers to generate
+     * @return {any[]} array with random numbers
+     */
+    function generateRandom(rangeFrom, rangeTo, quantity) {
+        let randomNumbers = new Array(quantity);
+        for (let i = 0; i < quantity; i++) {
+            randomNumbers[i] = getRandomInt(rangeFrom, rangeTo);
+        }
+        return randomNumbers;
+    }
+
+    /**
+     * Returns a random integer between min (inclusive) and max (inclusive).
+     * The value is no lower than min (or the next integer greater than min
+     * if min isn't an integer) and no greater than max (or the next integer
+     * lower than max if max isn't an integer).
+     * Using Math.round() will give you a non-uniform distribution!
+     * @param min minimum of random number range
+     * @param max maximum of random number range
+     * @return random integer between specified values
+     */
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 
-function initGenerateRandom() {
-    let rangeFrom = document.getElementById("rangeFrom").value;
-    rangeFrom = parseInt(rangeFrom);
-    let rangeTo = document.getElementById("rangeTo").value;
-    rangeTo = parseInt(rangeTo);
-    let quantity = document.getElementById("quantity").value;
-    quantity = parseInt(quantity);
+function copyPaste(action) {
 
-    let randomNumbers = generateRandom(rangeFrom, rangeTo, quantity);
-    console.log(randomNumbers);
-    alert(randomNumbers);
-}
-
-/**
- * Generates an array filled with random numbers
- * @param rangeFrom minimum random number
- * @param rangeTo maximum random number
- * @param quantity how many numbers to generate
- * @return {any[]} array with random numbers
- */
-function generateRandom(rangeFrom, rangeTo, quantity) {
-    let randomNumbers = new Array(quantity);
-    for (let i = 0; i < quantity; i++) {
-        randomNumbers[i] = getRandomInt(rangeFrom, rangeTo);
+    if (action == 'copy') {
+        copyToClipboard();
     }
-    return randomNumbers;
-}
-
-/**
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- * @param min minimum of random number range
- * @param max maximum of random number range
- * @return random integer between specified values
- */
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
- * Copies the input of the text field to the clipboard
- */
-function copyToClipboard() {
-    async function copy() {
-        let value = document.getElementById("inputToCopy").value;
-        let copyText = await navigator.clipboard.writeText(value);
+    else if (action == 'paste') {
+        pasteFromClipboard();
     }
 
-    document.getElementById("copyBtn").addEventListener("click", copy);
-}
+    /**
+     * Copies the input of the text field to the clipboard
+     */
+    function copyToClipboard() {
+        async function copy() {
+            let value = document.getElementById("inputToCopy").value;
+            let copyText = await navigator.clipboard.writeText(value);
+        }
 
-function pasteFromClipboard() {
-    async function paste() {
-        let textAreaPaste = document.getElementById("textAreaPaste");
-        let text = await navigator.clipboard.readText();
-        textAreaPaste.value += text;
+        document.getElementById("copyBtn").addEventListener("click", copy);
     }
 
-    document.getElementById("pasteBtn").addEventListener("click", paste);
+    function pasteFromClipboard() {
+        async function paste() {
+            let textAreaPaste = document.getElementById("textAreaPaste");
+            let text = await navigator.clipboard.readText();
+            textAreaPaste.value = text;
+        }
+
+        document.getElementById("pasteBtn").addEventListener("click", paste);
+    }
 }
 
 function BouncingBalls() {
